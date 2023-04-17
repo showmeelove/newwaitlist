@@ -18,6 +18,7 @@ import "@splidejs/splide/dist/css/splide.min.css";
 const Hero = () => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const images = [icon1, icon2, icon3, icon4, icon5, icon6];
+	const [email, setEmail] = useState("");
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		fetch("https://showmeelove-api.vercel.app/api/v1/waitlist", {
@@ -26,12 +27,13 @@ const Hero = () => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				email: "emsunconcept@gmail.com",
+				email: email,
 			}),
 		})
 			.then((response) => {
 				if (response.ok) {
 					console.log("Request sent successfully!");
+					setModalOpen(true);
 				} else {
 					throw new Error("Error sending request.");
 				}
@@ -39,8 +41,6 @@ const Hero = () => {
 			.catch((error) => {
 				console.error("Error:", error);
 			});
-
-		setModalOpen(true);
 	};
 	return (
 		<div className='hero-container h-[100vh]  flex items-center justify-center flex-col pt-[5rem] overflow-x-hidden'>
@@ -67,6 +67,8 @@ const Hero = () => {
 						type='text'
 						className='sm:py-6 py-5 px-5 sm:w-[600px] w-[350px] border-[#A3A3A3] text-[#A3A3A3] bg-transparent border-[1px] outline-none rounded-[50px]'
 						placeholder='enter your email address'
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<div className='sm:absolute relative top-[10%]  sm:right-[1%] right-0 mt-[1rem] sm:mt-0'>
 						{/* <Button type='submit' text={"get early access"} /> */}
